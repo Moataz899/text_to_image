@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generation App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Image Generation App</h1>
+        <p>Unleash Your Boundless Creativity with Advanced AI Technology - Generate Unique, High-Quality Images in Seconds.</p>
+        
+        <form method="POST" action="/" id="imageForm">
+            <div class="input-group">
+                <input type="text" name="prompt" id="promptInput" placeholder="Enter your image description..." required>
+                <button type="submit">Generate</button>
+            </div>
+        </form>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Generating your image...</p>
+        </div>
+
+        <div id="result" class="result">
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+            
+            {% if image_data %}
+                <div class="image-container">
+                    <img src="data:image/png;base64,{{ image_data }}" alt="Generated Image">
+                    <div class="download-section">
+                        <a href="/download?prompt={{ request.form.get('prompt', '') }}" class="download-btn">Download Image</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
